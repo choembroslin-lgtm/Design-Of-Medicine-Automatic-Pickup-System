@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>របៀបប្រើប្រាស់ — ប្រព័ន្ធចាប់យកថ្នាំស្វ័យប្រវត្តិ</title>
+<link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Inter:wght@400;500;600;700;800&family=Moul&family=Siemreap&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --primary:#0ea5e9;
+  --primary-dark:#0284c7;
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --bg-card:rgba(255,255,255,0.08);
+  --bg-card-hover:rgba(255,255,255,0.12);
+  --border:rgba(255,255,255,0.1);
+  --border-strong:rgba(255,255,255,0.2);
+  --text-dim:#cbd5e1;
+  --text-muted:#94a3b8;
+  --font-khmer: 'Khmer OS Battambang','Battambang','Khmer OS','Siemreap',sans-serif;
+  --font-khmer-head: 'Khmer OS Moul','Moul','Khmer OS Battambang','Battambang','Khmer OS',serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Inter',var(--font-khmer);
+  background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
+  color:#f1f5f9;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.9;
+}
+.khmer { font-family:var(--font-khmer); line-height:1.95; }
+.khmer-head { font-family:var(--font-khmer-head); line-height:1.75; letter-spacing:0.2px; }
+
+/* ---------- TOPBAR / SIDEBAR ---------- */
+.topbar {
+  display:none;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  position:sticky;
+  top:0;
+  z-index:1000;
+  font-family:var(--font-khmer);
+}
+.menu-btn { font-size:24px; cursor:pointer; }
+.sidebar {
+  width:280px;
+  background:rgba(15,23,42,0.98);
+  backdrop-filter:blur(20px);
+  border-right:1px solid #334155;
+  padding:20px;
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  z-index:2000;
+  transition:0.3s;
+  overflow-y:auto;
+}
+.logo { text-align:center; margin-bottom:20px; }
+.logo img { width:110px; height:110px; border-radius:16px; object-fit:cover; }
+.menu a {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
+  color:#cbd5e1;
+  text-decoration:none;
+  border-radius:10px;
+  margin-bottom:6px;
+  transition:all 0.3s;
+  font-family:var(--font-khmer);
+  font-size:0.95rem;
+}
+.menu a:hover,
+.menu a.active {
+  background:#1e40af;
+  color:white;
+  transform:translateX(8px);
+}
+
+/* ---------- MAIN ---------- */
+.main { margin-left:280px; padding:24px 28px 60px; max-width:1200px; }
+
+/* ---------- HERO ---------- */
+.hero {
+  border:1px solid var(--border-strong);
+  border-radius:24px;
+  padding:60px 32px;
+  margin-bottom:28px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  min-height:400px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:#0f172a;
+}
+.hero-video {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+.hero-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(15,23,42,0.85),rgba(15,23,42,0.5));
+  z-index:1;
+}
+.hero-content {
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+}
+.hero h1 {
+  font-family:var(--font-khmer-head);
+  font-size:clamp(1.5rem,3vw,2.1rem);
+  font-weight:400;
+  letter-spacing:0;
+  margin-bottom:14px;
+  line-height:1.75;
+  text-shadow:0 2px 10px rgba(0,0,0,0.5);
+}
+.hero p {
+  color:var(--text-dim);
+  max-width:640px;
+  margin:0 auto;
+  font-size:1rem;
+  font-family:var(--font-khmer);
+  line-height:1.95;
+  text-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
+.hero .chips {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+}
+.chip {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 14px;
+  border-radius:40px;
+  background:rgba(0,0,0,0.4);
+  border:1px solid var(--border-strong);
+  font-size:0.82rem;
+  font-weight:500;
+  color:#fff;
+  font-family:var(--font-khmer);
+  backdrop-filter:blur(5px);
+}
+.chip i { color:var(--primary); font-size:0.85rem; }
+
+/* ---------- QUICK NAV ---------- */
+.quick-nav {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;
+  margin-bottom:36px;
+}
+.qn-card {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px;
+  cursor:pointer;
+  transition:all 0.25s ease;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+.qn-card:hover {
+  background:var(--bg-card-hover);
+  border-color:var(--border-strong);
+  transform:translateY(-3px);
+}
+.qn-icon {
+  flex-shrink:0;
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.95rem;
+  background:rgba(14,165,233,0.15);
+  color:var(--primary);
+}
+.qn-card h4 {
+  font-size:0.95rem;
+  font-weight:600;
+  margin-bottom:3px;
+  font-family:var(--font-khmer);
+  line-height:1.6;
+}
+.qn-card span {
+  font-size:0.78rem;
+  color:var(--text-muted);
+  line-height:1.5;
+  font-family:var(--font-khmer);
+}
+
+/* ---------- SECTION ---------- */
+.section { margin-bottom:44px; scroll-margin-top:90px; }
+.section-head {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:20px;
+}
+.section-num {
+  flex-shrink:0;
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--primary),#3b82f6);
+  color:white;
+  box-shadow:0 6px 18px rgba(14,165,233,0.4);
+}
+.section-head h2 {
+  font-family:var(--font-khmer-head);
+  font-size:1.35rem;
+  font-weight:400;
+  letter-spacing:0;
+  line-height:1.75;
+}
+.section-head p {
+  font-size:0.85rem;
+  color:var(--text-muted);
+  margin-top:2px;
+  font-family:var(--font-khmer);
+}
+
+/* ---------- STEPS ---------- */
+.steps { display:flex; flex-direction:column; gap:14px; }
+.step {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 22px;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  transition:all 0.25s ease;
+}
+.step:hover {
+  background:var(--bg-card-hover);
+  border-color:var(--border-strong);
+}
+.step-num {
+  flex-shrink:0;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(14,165,233,0.18);
+  border:1px solid rgba(14,165,233,0.4);
+  color:var(--primary);
+  font-weight:700;
+  font-size:0.92rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.step-body { flex:1; min-width:0; }
+.step-body h4 {
+  font-size:1rem;
+  font-weight:600;
+  margin-bottom:6px;
+  font-family:var(--font-khmer);
+  line-height:1.7;
+}
+.step-body p {
+  font-size:0.92rem;
+  color:var(--text-dim);
+  line-height:1.85;
+  font-family:var(--font-khmer);
+}
+.step-body .hint {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:10px;
+  font-size:0.8rem;
+  color:var(--text-muted);
+  background:rgba(255,255,255,0.04);
+  padding:5px 10px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  font-family:var(--font-khmer);
+  flex-wrap:wrap;
+}
+.step-body .hint i { color:var(--primary); font-size:0.72rem; }
+
+/* ---------- STEP IMAGES ---------- */
+.step-image {
+  margin-top:14px;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--border-strong);
+  background:#0b1220;
+  box-shadow:0 8px 22px rgba(0,0,0,0.28);
+}
+.step-image img {
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  background:#0b1220;
+}
+.step-image .caption {
+  padding:9px 14px;
+  font-size:0.8rem;
+  color:var(--text-muted);
+  font-family:var(--font-khmer);
+  border-top:1px solid var(--border);
+  background:rgba(255,255,255,0.03);
+  display:flex;
+  align-items:center;
+  gap:7px;
+  line-height:1.6;
+}
+.step-image .caption i { color:var(--primary); font-size:0.75rem; }
+
+kbd {
+  display:inline-block;
+  background:rgba(255,255,255,0.08);
+  border:1px solid var(--border-strong);
+  border-radius:5px;
+  padding:1px 7px;
+  font-family:'Courier New',monospace;
+  font-size:0.82em;
+  color:#f1f5f9;
+}
+code {
+  background:rgba(14,165,233,0.15);
+  color:#7dd3fc;
+  border-radius:4px;
+  padding:1px 6px;
+  font-family:'Courier New',monospace;
+  font-size:0.85em;
+}
+
+/* ---------- CALLOUTS ---------- */
+.callout {
+  display:flex;
+  gap:12px;
+  padding:14px 16px;
+  border-radius:12px;
+  margin-top:14px;
+  font-size:0.88rem;
+  line-height:1.85;
+  align-items:flex-start;
+  font-family:var(--font-khmer);
+}
+.callout i { font-size:1.05rem; flex-shrink:0; margin-top:4px; }
+.callout.tip {
+  background:rgba(245,158,11,0.08);
+  border:1px solid rgba(245,158,11,0.3);
+  color:#fcd34d;
+}
+.callout.tip i { color:var(--warning); }
+.callout.warn {
+  background:rgba(239,68,68,0.08);
+  border:1px solid rgba(239,68,68,0.3);
+  color:#fca5a5;
+}
+.callout.warn i { color:var(--danger); }
+.callout.ok {
+  background:rgba(16,185,129,0.08);
+  border:1px solid rgba(16,185,129,0.3);
+  color:#6ee7b7;
+}
+.callout.ok i { color:var(--success); }
+.callout strong { color:inherit; font-weight:700; }
+
+/* ---------- FAQ ---------- */
+.faq {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:20px;
+}
+.faq-item {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+}
+.faq-item summary {
+  padding:15px 18px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:0.94rem;
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  transition:background 0.2s;
+  font-family:var(--font-khmer);
+  line-height:1.7;
+}
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary::after {
+  content:'+';
+  font-size:1.2rem;
+  color:var(--primary);
+  font-weight:400;
+  flex-shrink:0;
+  transition:transform 0.2s;
+}
+.faq-item[open] summary::after { transform:rotate(45deg); }
+.faq-item summary:hover { background:rgba(255,255,255,0.03); }
+.faq-item .answer {
+  padding:14px 18px 16px;
+  color:var(--text-dim);
+  font-size:0.9rem;
+  line-height:1.9;
+  border-top:1px solid var(--border);
+  font-family:var(--font-khmer);
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  text-align:center;
+  margin-top:60px;
+  padding:24px 16px;
+  border-top:1px solid var(--border);
+  color:var(--text-muted);
+  font-size:0.85rem;
+  font-family:var(--font-khmer);
+  line-height:1.9;
+}
+.footer a { color:var(--primary); text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:992px) {
+  .topbar { display:flex; }
+  .sidebar { left:-100%; }
+  .sidebar.active { left:0; }
+  .main { margin-left:0; padding:20px 16px 60px; }
+  .hero { padding:40px 20px; min-height:300px; }
+  .hero h1 { font-size:1.35rem; }
+  .section-head h2 { font-size:1.15rem; }
+  .section-num { width:40px; height:40px; font-size:1rem; }
+  .step { padding:16px; gap:12px; }
+  .step-num { width:30px; height:30px; font-size:0.85rem; }
+  .step-body h4 { font-size:0.95rem; }
+  .step-body p { font-size:0.86rem; line-height:1.85; }
+}
+@media (max-width:520px) {
+  .quick-nav { grid-template-columns:1fr 1fr; }
+  .qn-card { padding:14px; flex-direction:column; align-items:flex-start; gap:8px; }
+  .hero { padding:30px 16px; }
+  .hero .chips { gap:6px; }
+  .chip { padding:6px 10px; font-size:0.75rem; }
+  .callout { font-size:0.84rem; padding:12px 14px; }
+}
+</style>
+</head>
+<body data-page="howtouse">
+
+<!-- MOBILE TOPBAR -->
+<div class="topbar">
+  <i class="fas fa-bars menu-btn" onclick="toggleMenu()"></i>
+  <b>របៀបប្រើប្រាស់</b>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="logo">
+    <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple124/v4/c9/2e/81/c92e81ec-a851-d841-9a59-4cd31566f117/source/512x512bb.jpg"
+         alt="logo" onerror="this.style.display='none'">
+  </div>
+  <div class="menu">
+    <a href="howtouse.html" class="active"><i class="fas fa-book-open"></i> របៀបប្រើប្រាស់</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> អំពីយើង</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="Dom.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="khmer-head">របៀបប្រើប្រាស់ប្រព័ន្ធ</h1>
+      <p>ការណែនាំពេញលេញសម្រាប់ការប្រើប្រាស់ប្រព័ន្ធចាប់យកថ្នាំស្វ័យប្រវត្តិ</p>
+      <p>ចាប់ផ្ដើមពីការភ្ជាប់ WiFi រហូតដល់ការចាប់ថ្នាំ ការគ្រប់គ្រងស្តុក និង​ការមើលប្រវត្តិនៃការចាប់យកថ្នាំ។</p>
+      <div class="chips">
+        <span class="chip"><i class="fas fa-wifi"></i> WiFi: <b>DP</b></span>
+        <span class="chip"><i class="fas fa-pills"></i> ៤០ កន្លែងថ្នាំ</span>
+        <span class="chip"><i class="fas fa-user-shield"></i> Admin: admin</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK NAV -->
+  <div class="quick-nav">
+    <a class="qn-card" href="#getting-started">
+      <div class="qn-icon"><i class="fas fa-plug"></i></div>
+      <div>
+        <h4>ការចាប់ផ្តើម</h4>
+        <span>ភ្ជាប់ និងបើកកម្មវិធី</span>
+      </div>
+    </a>
+    <a class="qn-card" href="#dispensing">
+      <div class="qn-icon" style="background:rgba(16,185,129,0.15);color:var(--success);"><i class="fas fa-robot"></i></div>
+      <div>
+        <h4>ការចាប់ថ្នាំ</h4>
+        <span>កម្ម៉ង់ និងចាប់ថ្នាំ</span>
+      </div>
+    </a>
+    <a class="qn-card" href="#stock">
+      <div class="qn-icon" style="background:rgba(245,158,11,0.15);color:var(--warning);"><i class="fas fa-boxes"></i></div>
+      <div>
+        <h4>គ្រប់គ្រងស្តុក</h4>
+        <span>ចូល និងកែប្រែស្តុក</span>
+      </div>
+    </a>
+    <a class="qn-card" href="#history">
+      <div class="qn-icon" style="background:rgba(139,92,246,0.15);color:#a78bfa;"><i class="fas fa-history"></i></div>
+      <div>
+        <h4>ប្រវត្តិ</h4>
+        <span>កំណត់ត្រា និងសរុប</span>
+      </div>
+    </a>
+    <a class="qn-card" href="#cells">
+      <div class="qn-icon" style="background:rgba(236,72,153,0.15);color:#f472b6;"><i class="fas fa-th"></i></div>
+      <div>
+        <h4>តារាងថ្នាំ</h4>
+        <span>ទីតាំងថ្នាំ</span>
+      </div>
+    </a>
+    <a class="qn-card" href="#abouts">
+      <div class="qn-icon" style="background:rgba(236,72,153,0.15);color:#f472b6;"><i class="fas fa-th"></i></div>
+      <div>
+        <h4>about</h4>
+        <span>ទីតាំងថ្នាំ</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ១. ការចាប់ផ្តើម -->
+  <div class="section" id="getting-started">
+    <div class="section-head">
+      <div class="section-num">១</div>
+      <div>
+        <h2 class="khmer-head">ការចាប់ផ្តើម</h2>
+        <p>ភ្ជាប់ទៅម៉ាស៊ីន និងបើកកម្មវិធីគេហទំព័រ</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">១</div>
+        <div class="step-body">
+          <h4>បើកម៉ាស៊ីន</h4>
+          <p>បើកប្រព័ន្ធចាប់យកថ្នាំស្វ័យប្រវត្តិ។ ម៉ូទ័រ Stepper នឹងធ្វើការទៅ Homing ដោយស្វ័យប្រវត្តិ (អ័ក្ស X, Y, Z)។</p>
+          <div class="step-image">
+            <img src="pic16.png" alt="WiFi Settings 2.4GHz"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Step+1'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ការកំណត់ WiFi ទៅ 2.4GHz</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">២</div>
+        <div class="step-body">
+          <h4>ភ្ជាប់ទៅ WiFi</h4>
+          <p>បើកកុំព្យូទ័ររបស់អ្នក សូមបើកការកំណត់ WiFi រួច Edit Network Band to 2.4GHz។</p>
+          <span class="hint"><i class="fas fa-wifi"></i> SSID: <code>DP</code> &nbsp;·&nbsp; ពាក្យសម្ងាត់: <code>DP180322</code></span>
+          <div class="step-image">
+            <img src="pic14.png" alt="WiFi Settings 2.4GHz"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Step+2'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ការកំណត់ WiFi ទៅ 2.4GHz</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">៣</div>
+        <div class="step-body">
+          <h4>បើកកម្មវិធីគេហទំព័រ</h4>
+          <p>បើកកម្មវិធីរុករកណាមួយ (Chrome, Safari, Edge) ហើយបញ្ចូលអាសយដ្ឋាន IP ដែលបង្ហាញនៅលើ Serial Monitor ជាធម្មតាដូចជា <code>192.168.4.1</code> ឬ IP នៅក្នុង Mobile Hotspot។</p>
+          <span class="hint"><i class="fas fa-lightbulb"></i> សូម Bookmark អាសយដ្ឋាននេះសម្រាប់ការប្រើប្រាស់លើកក្រោយ។</span>
+          <div class="step-image">
+            <img src="pic15.png" alt="WiFi Settings 2.4GHz"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Step+2'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ការ Copy Adress</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ២. ការចាប់យកថ្នាំ -->
+  <div class="section" id="dispensing">
+    <div class="section-head">
+      <div class="section-num">២</div>
+      <div>
+        <h2 class="khmer-head">ការចាប់យកថ្នាំ</h2>
+        <p>ស្វែងរក បន្ថែម និងចាប់យកថ្នាំ</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">១</div>
+        <div class="step-body">
+          <h4>ស្វែងរកថ្នាំ</h4>
+          <p>វាយឈ្មោះថ្នាំនៅក្នុងប្រអប់ស្វែងរក។ បញ្ជីថ្នាំដែលត្រូវនឹងនឹងបង្ហាញនៅពេលអ្នកវាយ។ អ្នកក៏អាចវាយ <code>All Medicine</code> ដើម្បីបន្ថែមថ្នាំទាំង ៤០ ក្នុងពេលតែមួយ។</p>
+          <div class="step-image">
+            <img src="pic1.png" alt="Search Medicine"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Search'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ការស្វែងរកឈ្មោះថ្នាំ</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">២</div>
+        <div class="step-body">
+          <h4>កំណត់បរិមាណ</h4>
+          <p>បញ្ចូលចំនួនថ្នាំដែលអ្នកចង់ចាប់។ តម្លៃលំនាំដើមគឺ ១។ ចំនួនអតិបរមាត្រូវបានកំណត់ដោយស្តុកបច្ចុប្បន្ន។</p>
+          <div class="step-image">
+            <img src="pic2.png" alt="Set Quantity"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Quantity'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ការកំណត់បរិមាណថ្នាំ</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">៣</div>
+        <div class="step-body">
+          <h4>ចុច <span style="color:var(--success);">Add</span></h4>
+          <p>ថ្នាំត្រូវបានបន្ថែមទៅបញ្ជីកម្ម៉ង់បច្ចុប្បន្ន។ ធ្វើម្តងទៀតជំហាន ១–៣ ដើម្បីបន្ថែមថ្នាំផ្សេងៗទៀត។</p>
+          <div class="step-image">
+            <img src="pic3.png" alt="Add to Order List"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Add'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ការបន្ថែមថ្នាំទៅបញ្ជី</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">៤</div>
+        <div class="step-body">
+          <h4>ចុច <span style="color:var(--primary);">START DISPENSING</span></h4>
+          <p>ម៉ាស៊ីនចាប់ផ្តើមចាប់ថ្នាំ។ ផ្ទាំងបង្ហាញថាថ្នាំណាកំពុងត្រូវចាប់ ព្រមទាំងបង្ហាញលេខរាប់ (ឧ. <kbd>១/៣</kbd>) សម្រាប់ធាតុនីមួយៗ។</p>
+          <span class="hint"><i class="fas fa-clock"></i> ការចាប់ថ្នាំនីមួយៗចំណាយពេលប្រហែល ៥ –​ ១៦ វិនាទី – ដៃម៉ាស៊ីនធ្វើដំណើរទៅ ចាប់ថ្នាំ ហើយត្រឡប់មកទីតាំងដើមវិញ។</span>
+          <div class="step-image">
+            <img src="pic4.png" alt="Start Dispensing"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Dispensing'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ផ្ទាំងកំពុងចាប់ថ្នាំ</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">៥</div>
+        <div class="step-body">
+          <h4>ម៉ាស៊ីនកំពុងដំណើរការ</h4>
+          <p>បង្ហាញពីការចាប់ថ្នាំដល់ណា</p>
+          <div class="step-image">
+            <img src="pic5.png" alt="Dispensing Summary"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Summary'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ផ្ទាំងសេចក្តីសង្ខេប</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">៦</div>
+        <div class="step-body">
+          <h4>រង់ចាំផ្ទាំងសេចក្តីសង្ខេប</h4>
+          <p>ពេលបញ្ចប់ តារាងសង្ខេបបង្ហាញចំនួនថ្នាំដែលចាប់បានសរុប ថ្នាំដែលបរាជ័យ និងបរិមាណសរុប។ ផ្ទាំងនេះបិទដោយស្វ័យប្រវត្តិបន្ទាប់ពី ៦ វិនាទី។</p>
+          <div class="step-image">
+            <img src="pic6.png" alt="Dispensing Summary"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Summary'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ផ្ទាំងសេចក្តីសង្ខេប</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <i class="fas fa-exclamation-triangle"></i>
+      <div><strong>កុំ Refresh ទំព័រ</strong> ក្នុងអំឡុងពេលចាប់ថ្នាំ — ម៉ាស៊ីននឹងបន្តដំណើរការ ប៉ុន្តែអ្នកនឹងបាត់បង់ការមើល។ រង់ចាំផ្ទាំងសង្ខេបបង្ហាញជាមុនសិន ទើបចាកចេញពីទំព័រ។</div>
+    </div>
+
+    <div class="callout ok">
+      <i class="fas fa-check-circle"></i>
+      <div><strong>ការកែប្រែស្តុកស្វ័យប្រវត្តិ:</strong> រាល់ថ្នាំដែលចាប់បាន នឹងកាត់បន្ថយចំនួនស្តុកក្នុងពេលជាក់ស្តែង។ អ្នកមិនចាំបាច់កែប្រែស្តុកដោយដៃបន្ទាប់ពីការចាប់ថ្នាំទេ។</div>
+    </div>
+  </div>
+
+  <!-- ៣. ការគ្រប់គ្រងស្តុក -->
+  <div class="section" id="stock">
+    <div class="section-head">
+      <div class="section-num">៣</div>
+      <div>
+        <h2 class="khmer-head">ការគ្រប់គ្រងស្តុកថ្នាំ</h2>
+        <p>ចូលជា Admin ដើម្បីកែឈ្មោះ និងចំនួន</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">១</div>
+        <div class="step-body">
+          <h4>បើកទំព័រស្តុក</h4>
+          <p>ពី List ចុច <strong>ស្តុកថ្នាំ</strong>។ អ្នកនឹងឃើញតារាងថ្នាំទាំង ៤០ ជាមួយចំនួនស្តុកបច្ចុប្បន្ន។ ជួរដែលមានស្តុកតិចជាង ៣ នឹងបង្ហាញជាពណ៌ក្រហម។</p>
+          <div class="step-image">
+            <img src="pic7.png" alt="Stock Page"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Stock+Page'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ទំព័រស្តុកថ្នាំ</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">២</div>
+        <div class="step-body">
+          <h4>ចូលប្រព័ន្ធ</h4>
+          <p>ចុចប៊ូតុង <span style="color:var(--primary);"><i class="fas fa-lock"></i> Login</span> នៅជ្រុងខាងស្តាំខាងលើនៃផ្ទាំង។</p>
+          <span class="hint"><i class="fas fa-key"></i> ឈ្មោះអ្នកប្រើ: <code>admin</code> &nbsp;·&nbsp; ពាក្យសម្ងាត់: <code>admin123</code></span>
+          <div class="step-image">
+            <img src="pic8.png" alt="Admin Login"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Login'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ផ្ទាំងចូលជា Admin</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">៣</div>
+        <div class="step-body">
+          <h4>ចូលទៅរបៀប Edit</h4>
+          <p>បន្ទាប់ពីចូលរួច ប៊ូតុង <span style="color:var(--warning);"><i class="fas fa-edit"></i> Edit</span> នឹងបង្ហាញឡើង។ ចុចវាដើម្បីធ្វើឱ្យជួរឈរឈ្មោះ និងស្តុកអាចកែបាន។</p>
+          <div class="step-image">
+            <img src="pic9.png" alt="Edit Mode"
+                 onerror="this.src='https://placehold.co/800x450/0b1220/38bdf8?text=Edit+Mode'">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ របៀប Edit</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+      <div class="step-num">៧</div>
+        <div class="step-body">
+          <h4>បន្ថែមស្តុក (បន្ថែម)</h4>
+            <p>ប្រើប៊ូតុង <span style="color:var(--success);"><i class="fas fa-plus"></i> Add</span> ដើម្បីបង្កើនស្តុកថ្នាំយ៉ាងរហ័សដោយមិនចាំបាច់កែតារាង។ ជ្រើសរើសថ្នាំ បញ្ចូលចំនួន ហើយចុច Add Stock។</p>
+           <div class="step-image">
+            <img src="pic10.png" alt="Add Stock">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ការបន្ថែមស្តុកថ្នាំ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <i class="fas fa-lightbulb"></i>
+      <div><strong>ការជូនដំណឹងស្តុកទាប:</strong> ថ្នាំណាដែលមានស្តុកតិចជាង ៣ ត្រូវបានបន្លិចជាពណ៌ក្រហមនៅផ្នែកខាងលើនៃទំព័រ។ ប្រើវាដើម្បីដឹងពេលត្រូវបំពេញស្តុកឡើងវិញ។</div>
+    </div>
+  </div>
+
+  <!-- ៤. ប្រវត្តិ -->
+  <div class="section" id="history">
+    <div class="section-head">
+      <div class="section-num">៤</div>
+      <div>
+        <h2 class="khmer-head">ការមើលប្រវត្តិនៃការចាប់ថ្នាំ</h2>
+        <p>ការកម្ម៉ង់ដែលបានបញ្ចប់ និងបរាជ័យត្រូវបានកត់ត្រាទាំងអស់</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">១</div>
+        <div class="step-body">
+          <h4>បើកទំព័រប្រវត្តិ</h4>
+          <p>ចុច <strong>ប្រវត្តិ</strong> នៅក្នុង Sidebar។ អ្នកនឹងឃើញតារាងនៃការកម្ម៉ង់កន្លងមកទាំងអស់ ថ្មីបំផុតនៅខាងលើ — បង្ហាញកាលបរិច្ឆេទ/ពេលវេលា ធាតុ និងស្ថានភាព។</p>
+          <div class="step-image">
+            <img src="pic11.png" alt="History Page">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ ទំព័រប្រវត្តិ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ៥. តារាងថ្នាំ -->
+  <div class="section" id="cells">
+    <div class="section-head">
+      <div class="section-num">៥</div>
+      <div>
+        <h2 class="khmer-head">ទិដ្ឋភាពតារាងថ្នាំ</h2>
+        <p>មើលទីតាំងថ្នាំនីមួយៗឱ្យបានច្បាស់</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">១</div>
+        <div class="step-body">
+          <h4>បើកតារាងថ្នាំ</h4>
+          <p>ចុច <strong>តារាងថ្នាំ</strong> នៅក្នុង Sidebar។ អ្នកនឹងឃើញក្រឡាចត្រង្គ ៥×៨ បង្ហាញកន្លែងថ្នាំទាំងអស់។</p>
+          <div class="step-image">
+            <img src="pic12.png" alt="Cells Grid">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ តារាងថ្នាំ</div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <!-- ៦. តារាងថ្នាំ -->
+  <div class="section" id="abouts">
+    <div class="section-head">
+      <div class="section-num">៦</div>
+      <div>
+        <h2 class="khmer-head">About</h2>
+        <p>មើលទីតាំងថ្នាំនីមួយៗឱ្យបានច្បាស់</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">១</div>
+        <div class="step-body">
+          <h4>បើកតារាងថ្នាំ</h4>
+          <p>ចុច <strong>តារាងថ្នាំ</strong> នៅក្នុង Sidebar។ អ្នកនឹងឃើញ ៥×៨ បង្ហាញកន្លែងថ្នាំទាំងអស់។</p>
+          <div class="step-image">
+            <img src="pic13.png" alt="Cells Grid">
+            <div class="caption"><i class="fas fa-image"></i> រូបភាពឧទាហរណ៍៖ សមាជិកក្រុម</div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <!-- ៧. សំណួរញឹកញាប់ -->
+  <div class="section" id="faq">
+    <div class="section-head">
+      <div class="section-num"><i class="fas fa-question"></i></div>
+      <div>
+        <h2 class="khmer-head">សំណួរញឹកញាប់</h2>
+        <p>ចម្លើយរហ័សចំពោះបញ្ហាទូទៅ</p>
+      </div>
+    </div>
+
+    <div class="faq">
+      <details class="faq-item">
+        <summary>ម៉ាស៊ីនមិនធ្វើចលនាពេលខ្ញុំចុច START DISPENSING</summary>
+        <div class="answer">ពិនិត្យថា Stepper Driver មានចរន្តអគ្គិសនី និង Limit Switch ដំណើរការល្អ។ ព្យាយាម Home ឡើងវិញដោយបិទ-បើកម៉ាស៊ីន។ ប្រសិនបើ Limit Switch ជាប់នៅ HIGH ការ Home នឹងអស់ពេល — ពិនិត្យខ្សែនៅ Pin 2, 0, 4 និង 5។</div>
+      </details>
+      <details class="faq-item">
+        <summary>ខ្ញុំឃើញ "Insufficient stock" សម្រាប់ថ្នាំមួយ</summary>
+        <div class="answer">បរិមាណដែលអ្នកស្នើគឺច្រើនជាងស្តុកបច្ចុប្បន្ន។ ចូលទៅទំព័រស្តុកថ្នាំ ចូលជា Admin ហើយបញ្ចុះបរិមាណកម្ម៉ង់ ឬបំពេញស្តុកថ្នាំនោះឡើងវិញ។</div>
+      </details>
+      <details class="faq-item">
+        <summary>ធ្វើដូចម្តេចដើម្បីបន្ថែមថ្នាំដូចគ្នាច្រើនជាង ១?</summary>
+        <div class="answer">នៅលើទំព័រដើម កំណត់ប្រអប់បរិមាណជាលេខដែលអ្នកត្រូវការ បន្ទាប់មកចុច Add។ អ្នកក៏អាចបន្ថែមថ្នាំដូចគ្នាច្រើនដងបានដែរ — ប្រព័ន្ធនឹងបញ្ចូលធាតុស្ទួនដោយស្វ័យប្រវត្តិ។</div>
+      </details>
+      <details class="faq-item">
+        <summary>ការចាប់ថ្នាំត្រូវបានរំខាន — តើកម្ម៉ង់ត្រូវបានរក្សាទុកទេ?</summary>
+        <div class="answer">បាទ/ចាស។ ប្រសិនបើទំព័រត្រូវបានបិទក្នុងអំឡុងពេលកម្ម៉ង់ ប្រព័ន្ធនឹងកត់ត្រាកម្ម៉ង់ជា "Failed - Order interrupted" នៅក្នុងទំព័រប្រវត្តិ នៅពេលកម្ម៉ង់បន្ទាប់ចាប់ផ្តើម។ ស្តុកដែលចាប់បានដោយជោគជ័យមិនត្រូវបានសងវិញទេ។</div>
+      </details>
+      <details class="faq-item">
+        <summary>ធ្វើដូចម្តេចដើម្បីប្តូរឈ្មោះ WiFi ឬពាក្យសម្ងាត់?</summary>
+        <div class="answer">ពួកវាត្រូវបានកំណត់នៅក្នុងកូដ Arduino ក្រោម <code>const char* ssid = "DP"</code> និង <code>const char* password = "DP180322"</code>។ Upload Sketch ដែលបានធ្វើបច្ចុប្បន្នភាពទៅ ESP32 ហើយ Flash ឡើងវិញ។</div>
+      </details>
+      <details class="faq-item">
+        <summary>តើទូរស័ព្ទច្រើនអាចភ្ជាប់ក្នុងពេលតែមួយបានទេ?</summary>
+        <div class="answer">បាទ/ចាស — ESP32 Web Server អាចគ្រប់គ្រងការភ្ជាប់ច្រើនក្នុងពេលតែមួយបាន។ ប៉ុន្តែ ការចាប់ថ្នាំអាចដំណើរការតែមួយក្នុងពេលតែមួយ ដូច្នេះសូមជៀសវាងចាប់ផ្តើមកម្ម៉ង់ពីរក្នុងពេលតែមួយ។</div>
+      </details>
+      <details class="faq-item">
+        <summary>អេក្រង់បង្ហាញ "Uptime: 0s" ជំនួសកាលបរិច្ឆេទ</summary>
+        <div class="answer">ការធ្វើសមកាលកម្ម NTP បានបរាជ័យ។ ជាធម្មតាមានន័យថាគ្មានការតភ្ជាប់អ៊ីនធឺណិត។ ប្រព័ន្ធនៅតែដំណើរការធម្មតា — វាគ្រាន់តែត្រឡប់មកបង្ហាញ Uptime ជំនួសឱ្យកាលបរិច្ឆេទពិត។</div>
+      </details>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    ប្រព័ន្ធចាប់ykថ្នាំស្វ័យប្រវត្តិ &nbsp;·&nbsp;
+    <a href="about.html">អំពីក្រុមការងារ</a>
+    <div style="margin-top:8px;opacity:0.6;font-size:0.8rem;">
+      Thesis NPIC 2026 &nbsp;·&nbsp;
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+/* Smooth scroll for quick-nav links */
+document.querySelectorAll('.quick-nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('sidebar').classList.remove('active');
+    }
+  });
+});
+
+/* Close mobile sidebar when clicking outside */
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const menuBtn = document.querySelector('.menu-btn');
+  if (window.innerWidth <= 992 &&
+      sidebar.classList.contains('active') &&
+      !sidebar.contains(e.target) &&
+      menuBtn && !menuBtn.contains(e.target)) {
+    sidebar.classList.remove('active');
+  }
+});
+</script>
+</body>
+</html>

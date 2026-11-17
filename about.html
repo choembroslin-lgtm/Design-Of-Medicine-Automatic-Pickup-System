@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>អំពីយើង — ប្រព័ន្ធចាប់យកថ្នាំស្វ័យប្រវត្តិ</title>
+<link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Inter:wght@400;500;600;700;800&family=Moul&family=Siemreap&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root { --primary:#0ea5e9; --text-dim:#cbd5e1; --text-muted:#94a3b8; }
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Inter','Battambang','Khmer OS Battambang','Siemreap',sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#fff;
+  min-height:100vh;
+}
+
+/* ---------- TOPBAR ---------- */
+.topbar {
+  display:none;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  position:sticky;
+  top:0;
+  z-index:1000;
+  font-family:'Battambang','Khmer OS Battambang',sans-serif;
+}
+.menu-btn { font-size:24px; cursor:pointer; }
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+  width:280px;
+  background:rgba(15,23,42,0.98);
+  backdrop-filter:blur(20px);
+  border-right:1px solid #334155;
+  padding:20px;
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  z-index:2000;
+  transition:0.3s;
+  overflow-y:auto;
+}
+.logo { text-align:center; margin-bottom:20px; }
+.logo img { width:110px; height:110px; border-radius:16px; object-fit:cover; }
+.menu a {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
+  color:#cbd5e1;
+  text-decoration:none;
+  border-radius:10px;
+  margin-bottom:6px;
+  transition:all 0.3s;
+  font-family:'Battambang','Khmer OS Battambang',sans-serif;
+  font-size:0.95rem;
+}
+.menu a:hover,
+.menu a.active {
+  background:#1e40af;
+  color:white;
+  transform:translateX(8px);
+}
+
+/* ---------- MAIN ---------- */
+.main {
+  margin-left:280px;
+  padding:30px 20px;
+  display:flex;
+  justify-content:center;
+}
+.about-wrap { width:100%; max-width:960px; }
+.container {
+  background:rgba(255,255,255,0.06);
+  padding:30px 25px;
+  border-radius:16px;
+  backdrop-filter:blur(12px);
+  width:100%;
+  text-align:center;
+}
+h1 { font-size:28px; margin-bottom:8px; line-height:1.35; }
+.subtitle { opacity:0.7; margin-bottom:35px; font-size:17px; }
+h2 { font-size:24px; }
+
+/* ---------- KHMER HEADING ---------- */
+.khmer-heading {
+  font-family:'Moul','Khmer OS Moul','Battambang','Khmer OS Battambang','Noto Sans Khmer',sans-serif;
+  font-size:30px;
+  font-weight:700;          
+  line-height:2.1;
+  letter-spacing:0.2px;
+  color:#fff;
+  margin-bottom:10px;
+}
+
+/* ---------- TEAM ---------- */
+.team {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:stretch;
+  gap:25px;
+  margin-top:20px;
+}
+.member {
+  background:#1e293b;
+  width:250px;
+  padding:25px 20px;
+  border-radius:20px;
+  text-align:center;
+  transition:all .35s ease;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
+.member:hover {
+  transform:translateY(-8px);
+  background:#26334a;
+  box-shadow:0 18px 35px rgba(0,0,0,.45);
+}
+.member img {
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+  margin:0 auto 18px;
+  border:4px solid #0062ff;
+  background:#334155;
+  transition:transform .35s ease;
+}
+.member:hover img { transform:scale(1.08); }
+.member h3 {
+  font-size:20px;
+  font-weight:600;
+  margin-bottom:8px;
+  color:#fff;
+  font-family:'Battambang','Khmer OS Battambang',sans-serif;
+}
+.member p { color:#cbd5e1; font-size:16px; line-height:1.5; }
+.member .en-name {
+  color:#94a3b8;
+  font-size:14px;
+  font-style:italic;
+  margin-bottom:10px;
+}
+.member .role {
+  color:#7dd3fc;
+  font-weight:600;
+  font-size:15px;
+  font-family:'Battambang','Khmer OS Battambang',sans-serif;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:992px) {
+  .topbar { display:flex; }
+  .sidebar { left:-100%; }
+  .sidebar.active { left:0; }
+  .main { margin-left:0; padding:20px 15px; }
+  .container { padding:25px 18px; }
+}
+@media (max-width:992px) and (orientation:portrait) {
+  .team { flex-direction:column; align-items:center; }
+  .member { width:100%; max-width:320px; }
+  .member img { width:130px; height:130px; }
+}
+@media (max-width:600px) {
+  h1 { font-size:20px; }
+  .subtitle { font-size:14px; margin-bottom:22px; }
+  .khmer-heading { font-size:22px; line-height:1.8; }
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE TOPBAR -->
+<div class="topbar">
+  <i class="fas fa-bars menu-btn" onclick="toggleMenu()"></i>
+  <b>អំពីយើង</b>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="logo">
+    <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple124/v4/c9/2e/81/c92e81ec-a851-d841-9a59-4cd31566f117/source/512x512bb.jpg"
+         alt="logo" onerror="this.style.display='none'">
+  </div>
+  <div class="menu">
+    <a href="howtouse.html"><i class="fas fa-book-open"></i> របៀបប្រើប្រាស់</a>
+    <a href="about.html" class="active"><i class="fas fa-info-circle"></i> អំពីយើង</a>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+  <div class="about-wrap">
+    <div class="container">
+
+      <h1>DESIGN OF MEDICINE AUTOMATIC PICKUP SYSTEM</h1>
+      <p class="subtitle">National Polytechnic Institute of Cambodia (NPIC)</p>
+
+      <h2 class="khmer-heading">សមាជិកក្រុម</h2>
+
+      <div class="team">
+
+        <!-- Member 1 -->
+        <div class="member">
+          <img src="Dom.jpg" alt="Touch Odom"
+               onerror="this.src='https://placehold.co/140x140/334155/cbd5e1?text=Odom'">
+          <h3>ទូច ឧត្តម</h3>
+          <p class="en-name">Touch Odom</p>
+          <p class="role">ប្រធានក្រុម</p>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="member">
+          <img src="Lin.jpg" alt="Choem Broslin"
+               onerror="this.src='https://placehold.co/140x140/334155/cbd5e1?text=Broslin'">
+          <h3>ជឹម ប្រុសលីន</h3>
+          <p class="en-name">Choem Broslin</p>
+          <p class="role">សមាជិកក្រុមទី ១</p>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="member">
+          <img src="Ran.jpg" alt="Sorn Phyran"
+               onerror="this.src='https://placehold.co/140x140/334155/cbd5e1?text=Phyran'">
+          <h3>សន ភីរ៉ាន</h3>
+          <p class="en-name">Sorn Phyran</p>
+          <p class="role">សមាជិកក្រុមទី ២</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const menuBtn = document.querySelector('.menu-btn');
+  if (window.innerWidth <= 992 &&
+      sidebar.classList.contains('active') &&
+      !sidebar.contains(e.target) &&
+      menuBtn && !menuBtn.contains(e.target)) {
+    sidebar.classList.remove('active');
+  }
+});
+</script>
+</body>
+</html>
